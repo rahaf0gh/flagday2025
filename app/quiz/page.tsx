@@ -96,7 +96,7 @@ export default function QuizPage() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
               {q.options.map((opt, idx) => {
-                let borderColor = "rgba(0,108,53,.25)", bg = "rgba(0,108,53,.06)", textColor = "rgba(245,240,232,.85)", icon = null;
+                let borderColor = "rgba(0,108,53,.25)", bg = "rgba(0,108,53,.06)", textColor = "rgba(245,240,232,.85)", icon: string | null = null;
                 if (confirmed) {
                   if (idx === q.answer) { borderColor = "#22c55e"; bg = "rgba(34,197,94,.1)"; textColor = "#4ade80"; icon = "✓"; }
                   else if (idx === selected && selected !== q.answer) { borderColor = "#ef4444"; bg = "rgba(239,68,68,.08)"; textColor = "rgba(245,240,232,.5)"; icon = "✗"; }
