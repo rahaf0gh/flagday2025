@@ -1,6 +1,6 @@
 import ScrollAnimations from "@/components/ScrollAnimations";
 import Image from "next/image";
-import VisitorCounter from "@/components/VisitorCounter"; // ← أضف هذا
+import VisitorCounter from "@/components/VisitorCounter"; 
 import Link from "next/link";
 
 export default function Home() {
@@ -48,7 +48,6 @@ export default function Home() {
           <div className="w-px h-[50px] bg-gradient-to-b from-[#c9a84c] to-transparent animate-[lineGrow_1.4s_ease-in-out_infinite]" />
         </div>
 
-        {/* Video overlay — بدون خلفية */}
         <video
           autoPlay
           muted

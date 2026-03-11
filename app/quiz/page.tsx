@@ -24,15 +24,15 @@ function LogoIcon() {
 
 export default function QuizPage() {
   const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
-  const [answers, setAnswers] = useState([]);
+  const [answers, setAnswers] = useState<{ correct: boolean; selected: number }[]>([]);
 
   const q = questions[current];
 
-  function handleSelect(idx) { if (confirmed) return; setSelected(idx); }
+  function handleSelect(idx: number) { if (confirmed) return; setSelected(idx); }
   function handleConfirm() {
     if (selected === null) return;
     const correct = selected === q.answer;
@@ -167,8 +167,6 @@ export default function QuizPage() {
               <button onClick={handleRestart} style={{ display: "block", width: "100%", background: "#c9a84c", color: "#0a0a0a", border: "none", borderRadius: 14, padding: "16px", fontSize: "1.1rem", fontFamily: "'Amiri', serif", fontWeight: "bold", cursor: "pointer" }}>
                 إعادة الاختبار 🔄
               </button>
-
-              {/* ✅ Link بدلاً من <a href="/page.tsx"> */}
               <Link href="/" style={{ display: "block", width: "100%", textAlign: "center", background: "rgba(0,108,53,.12)", color: "rgba(245,240,232,.7)", border: "1px solid rgba(0,108,53,.3)", borderRadius: 14, padding: "14px", fontSize: "1rem", fontFamily: "'Amiri', serif", textDecoration: "none", transition: "all .2s" }}>
                 ← العودة للصفحة الرئيسية
               </Link>
@@ -185,7 +183,6 @@ export default function QuizPage() {
             <span style={{ fontSize: ".95rem", fontWeight: "bold", color: "#c9a84c", fontFamily: "'Amiri', serif", letterSpacing: ".05em" }}>هاف كود</span>
           </div>
           <p style={{ margin: 0, fontSize: ".78rem", color: "rgba(245,240,232,.35)", letterSpacing: ".05em", textAlign: "center" }}>© 2025 هاف كود — جميع الحقوق محفوظة</p>
-
         </div>
       </footer>
 
