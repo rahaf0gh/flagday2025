@@ -1,6 +1,6 @@
 import ScrollAnimations from "@/components/ScrollAnimations";
 import Image from "next/image";
-import VisitorCounter from "@/components/VisitorCounter"; 
+import VisitorCounter from "@/components/VisitorCounter";
 import Link from "next/link";
 
 export default function Home() {
@@ -25,7 +25,7 @@ export default function Home() {
           }}
         />
 
-        <p className="absolute top-6 left-1/2 -translate-x-1/2 z-20 text-[.85rem] tracking-[.3em] text-[#c9a84c] uppercase animate-[fadeUp_.8s_.2s_forwards]">
+        <p className="absolute top-6 left-1/2 -translate-x-1/2 z-20 text-[.85rem] text-[#c9a84c] animate-[fadeUp_.8s_.2s_forwards] whitespace-nowrap">
           ١١ مارس · يوم العلم السعودي
         </p>
 
@@ -63,7 +63,7 @@ export default function Home() {
       <div style={{ background: "#ededed" }}>
         {/* MEANING */}
         <section className="max-w-[900px] mx-auto px-8 py-24">
-          <span className="inline-block font-bold text-[.76rem] tracking-[.35em] text-[#c9a84c] uppercase border-r-2 border-[#c9a84c] pr-3 mb-5">
+          <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">
             الرمزية
           </span>
           <h2 className="font-['Amiri',serif] text-[clamp(1.8rem,4vw,3rem)] font-bold text-[#0a0a0a] leading-[1.3] mb-6">
@@ -92,7 +92,7 @@ export default function Home() {
 
         {/* HERITAGE */}
         <section className="max-w-[900px] mx-auto px-8 py-24">
-          <span className="inline-block font-bold text-[.76rem] tracking-[.35em] text-[#c9a84c] uppercase border-r-2 border-[#c9a84c] pr-3 mb-5">
+          <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">
             التاريخ
           </span>
           <h2 className="font-['Amiri',serif] text-[clamp(1.8rem,4vw,3rem)] font-bold text-[#0a0a0a] leading-[1.3] mb-6">
@@ -166,7 +166,7 @@ export default function Home() {
 
         {/* SPECS */}
         <section className="max-w-[900px] mx-auto px-8 py-24">
-          <span className="inline-block font-bold text-[.76rem] tracking-[.35em] text-[#c9a84c] uppercase border-r-2 border-[#c9a84c] pr-3 mb-5">
+          <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">
             المواصفات
           </span>
           <h2 className="font-['Amiri',serif] text-[clamp(1.8rem,4vw,3rem)] font-bold text-[#0a0a0a] leading-[1.3] mb-6">
@@ -252,7 +252,7 @@ export default function Home() {
               }}
             />
 
-            <span className="inline-block font-bold text-[.76rem] tracking-[.35em] text-[#c9a84c] uppercase border-r-2 border-[#c9a84c] pr-3 mb-5 relative z-10">
+            <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">
               الاحتفال
             </span>
             <h2 className="font-['Amiri',serif] text-[clamp(2rem,5vw,3.5rem)] font-bold text-[#0a0a0a] leading-[1.3] mb-4 relative z-10">
@@ -282,7 +282,6 @@ export default function Home() {
           </div>
         </section>
       </div>{" "}
-      {/* end sections wrapper */}
       {/* ── الفوتر ── */}
       <footer
         style={{
@@ -295,24 +294,24 @@ export default function Home() {
         }}
       >
         <div
-  style={{
-    maxWidth: 720,
-    margin: "0 auto",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 12,
-  }}
->
+          style={{
+            maxWidth: 720,
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 12,
+          }}
+        >
           <div>
-              <Image
-                src="/hafcod.png"
-                alt="هاف كود"
-                width={100}
-                height={40}
-                // style={{ objectFit: "contain" }}
-              />
+            <Image
+              src="/hafcod.png"
+              alt="هاف كود"
+              width={100}
+              height={40}
+              // style={{ objectFit: "contain" }}
+            />
           </div>
           <p
             style={{

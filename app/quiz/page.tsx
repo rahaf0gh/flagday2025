@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const questions = [
@@ -29,10 +29,19 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const [answers, setAnswers] = useState<{ correct: boolean; selected: number }[]>([]);
+  const [completions, setCompletions] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/quiz-completions")
+      .then((r) => r.json())
+      .then((d) => setCompletions(d.count))
+      .catch(() => {});
+  }, []);
 
   const q = questions[current];
 
   function handleSelect(idx: number) { if (confirmed) return; setSelected(idx); }
+
   function handleConfirm() {
     if (selected === null) return;
     const correct = selected === q.answer;
@@ -40,10 +49,27 @@ export default function QuizPage() {
     setAnswers((a) => [...a, { correct, selected }]);
     setConfirmed(true);
   }
+
   function handleNext() {
-    if (current + 1 >= questions.length) { setFinished(true); }
-    else { setCurrent((c) => c + 1); setSelected(null); setConfirmed(false); }
+    if (current + 1 >= questions.length) {
+      const alreadyCounted = sessionStorage.getItem("quiz-completed");
+      if (!alreadyCounted) {
+        fetch("/api/quiz-completions", { method: "POST" })
+          .then((r) => r.json())
+          .then((d) => {
+            setCompletions(d.count);
+            sessionStorage.setItem("quiz-completed", "1");
+          })
+          .catch(() => {});
+      }
+      setFinished(true);
+    } else {
+      setCurrent((c) => c + 1);
+      setSelected(null);
+      setConfirmed(false);
+    }
   }
+
   function handleRestart() {
     setCurrent(0); setSelected(null); setConfirmed(false);
     setScore(0); setFinished(false); setAnswers([]);
@@ -58,7 +84,7 @@ export default function QuizPage() {
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: `repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(0,108,53,.04) 60px,rgba(0,108,53,.04) 61px), repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(0,108,53,.04) 60px,rgba(0,108,53,.04) 61px)` }} />
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(circle at 15% 80%, rgba(201,168,76,.06) 0%, transparent 50%), radial-gradient(circle at 85% 20%, rgba(0,108,53,.12) 0%, transparent 50%)" }} />
 
-      {/* ── زر الرجوع للأعلى ── */}
+      {/* زر الرجوع */}
       <div style={{ position: "relative", zIndex: 10, padding: "20px 32px 0" }}>
         <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,108,53,.12)", border: "1px solid rgba(0,108,53,.3)", borderRadius: 10, padding: "9px 18px", color: "rgba(245,240,232,.75)", fontSize: ".85rem", fontFamily: "'Amiri', serif", textDecoration: "none", transition: "all .2s" }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -68,7 +94,7 @@ export default function QuizPage() {
         </Link>
       </div>
 
-      {/* ── المحتوى الرئيسي ── */}
+      {/* المحتوى الرئيسي */}
       <div style={{ flex: 1, maxWidth: 720, width: "100%", margin: "0 auto", padding: "0 24px 60px", position: "relative", zIndex: 1 }}>
         <div style={{ textAlign: "center", paddingTop: 40, paddingBottom: 32 }}>
           <span style={{ display: "inline-block", fontSize: ".72rem", letterSpacing: ".35em", color: "#c9a84c", textTransform: "uppercase", borderRight: "2px solid #c9a84c", paddingRight: 12, marginBottom: 16 }}>اختبر معلوماتك</span>
@@ -138,6 +164,22 @@ export default function QuizPage() {
               </div>
               <p style={{ color: "#c9a84c", fontSize: "1.1rem", margin: "12px 0 4px" }}>{scoreMsg}</p>
               <p style={{ color: "rgba(245,240,232,.45)", fontSize: ".9rem", margin: 0 }}>أجبت بشكل صحيح على {score} من أصل {questions.length} أسئلة</p>
+
+              {/* عداد المكتملين */}
+              {completions !== null && (
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(0,108,53,.08)", border: "1px solid rgba(0,108,53,.25)", borderRadius: 12, padding: "8px 18px", marginTop: 20 }}>
+                  <span style={{ position: "relative", display: "flex", width: 10, height: 10 }}>
+                    <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#4ade80", opacity: 0.6, animation: "ping 1s infinite" }} />
+                    <span style={{ position: "relative", borderRadius: "50%", width: 10, height: 10, background: "#4ade80", display: "block" }} />
+                  </span>
+                  <span style={{ fontSize: ".78rem", color: "rgba(245,240,232,.55)" }}>أتم الاختبار</span>
+                  <span style={{ fontSize: "1.1rem", fontWeight: "bold", color: "#c9a84c", fontFamily: "'Amiri', serif" }}>
+                    {completions.toLocaleString("ar-SA")}
+                  </span>
+                  <span style={{ fontSize: ".72rem", color: "rgba(245,240,232,.35)" }}>شخص</span>
+                </div>
+              )}
+
               <div style={{ margin: "28px auto 0", maxWidth: 300 }}>
                 <div style={{ height: 8, background: "rgba(255,255,255,.07)", borderRadius: 999, overflow: "hidden" }}>
                   <div style={{ height: "100%", borderRadius: 999, background: scorePercent >= 75 ? "linear-gradient(to left, #4ade80, #006c35)" : scorePercent >= 50 ? "linear-gradient(to left, #c9a84c, #a07830)" : "linear-gradient(to left, #f87171, #dc2626)", width: `${scorePercent}%`, transition: "width 1s ease .3s" }} />
@@ -175,7 +217,7 @@ export default function QuizPage() {
         )}
       </div>
 
-      {/* ── الفوتر ── */}
+      {/* الفوتر */}
       <footer style={{ position: "relative", zIndex: 2, borderTop: "1px solid rgba(0,108,53,.18)", background: "rgba(0,0,0,.35)", backdropFilter: "blur(8px)", padding: "24px 32px" }}>
         <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -188,6 +230,7 @@ export default function QuizPage() {
 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes ping { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2); opacity: 0; } }
         button:hover { filter: brightness(1.08); }
       `}</style>
     </div>
