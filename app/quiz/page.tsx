@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const questions = [
   { id: 1, question: "ما هو اللون الأساسي لعلم المملكة العربية السعودية؟", options: ["الأحمر", "الأخضر", "الأبيض", "الأسود"], answer: 1, explanation: "اللون الأخضر هو اللون الرئيسي للعلم السعودي." },
@@ -97,7 +98,23 @@ export default function QuizPage() {
       {/* المحتوى الرئيسي */}
       <div style={{ flex: 1, maxWidth: 720, width: "100%", margin: "0 auto", padding: "0 24px 60px", position: "relative", zIndex: 1 }}>
         <div style={{ textAlign: "center", paddingTop: 40, paddingBottom: 32 }}>
-          <span style={{ display: "inline-block", fontSize: ".72rem", letterSpacing: ".35em", color: "#c9a84c", textTransform: "uppercase", borderRight: "2px solid #c9a84c", paddingRight: 12, marginBottom: 16 }}>اختبر معلوماتك</span>
+
+          {/* عداد المكتملين — يظهر قبل الاختبار */}
+          {completions !== null && (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(0,108,53,.08)", border: "1px solid rgba(0,108,53,.25)", borderRadius: 12, padding: "8px 18px", marginBottom: 24 }}>
+              <span style={{ position: "relative", display: "flex", width: 10, height: 10 }}>
+                <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#4ade80", opacity: 0.6, animation: "ping 1s infinite" }} />
+                <span style={{ position: "relative", borderRadius: "50%", width: 10, height: 10, background: "#4ade80", display: "block" }} />
+              </span>
+              <span style={{ fontSize: ".78rem", color: "rgba(245,240,232,.55)" }}>أتم الاختبار</span>
+              <span style={{ fontSize: "1.1rem", fontWeight: "bold", color: "#c9a84c", fontFamily: "'Amiri', serif" }}>
+                {completions.toLocaleString("ar-SA")}
+              </span>
+              <span style={{ fontSize: ".72rem", color: "rgba(245,240,232,.35)" }}>شخص</span>
+            </div>
+          )}
+
+<span style={{ display: "block", fontSize: ".72rem", color: "#c9a84c", borderRight: "2px solid #c9a84c", paddingRight: 12, width: "fit-content", margin: "0 auto 16px", fontFamily: "'Amiri', serif" }}>اختبر معلوماتك</span>
           <h1 style={{ fontSize: "clamp(2rem,6vw,3.5rem)", fontWeight: "bold", color: "#fff", margin: "0 0 8px", lineHeight: 1.2 }}>العلم السعودي</h1>
           <p style={{ color: "rgba(245,240,232,.55)", fontSize: "1rem", fontWeight: 300, lineHeight: 1.8, margin: 0 }}>7 أسئلة عن تاريخ ورمزية علم المملكة العربية السعودية</p>
         </div>
@@ -141,7 +158,7 @@ export default function QuizPage() {
 
             {confirmed && (
               <div style={{ background: "rgba(201,168,76,.07)", border: "1px solid rgba(201,168,76,.25)", borderRadius: 14, padding: "16px 20px", marginBottom: 24, animation: "fadeIn .4s ease" }}>
-                <span style={{ fontSize: ".72rem", letterSpacing: ".2em", color: "#c9a84c", textTransform: "uppercase" }}>💡 معلومة</span>
+                <span style={{ fontSize: ".72rem", letterSpacing: ".2em", color: "#c9a84c", textTransform: "uppercase", fontFamily: "'Amiri', serif"  }}>💡 معلومة</span>
                 <p style={{ margin: "8px 0 0", fontSize: ".95rem", color: "rgba(245,240,232,.75)", lineHeight: 1.9 }}>{q.explanation}</p>
               </div>
             )}
@@ -165,7 +182,7 @@ export default function QuizPage() {
               <p style={{ color: "#c9a84c", fontSize: "1.1rem", margin: "12px 0 4px" }}>{scoreMsg}</p>
               <p style={{ color: "rgba(245,240,232,.45)", fontSize: ".9rem", margin: 0 }}>أجبت بشكل صحيح على {score} من أصل {questions.length} أسئلة</p>
 
-              {/* عداد المكتملين */}
+              {/* عداد المكتملين في صفحة النتيجة */}
               {completions !== null && (
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(0,108,53,.08)", border: "1px solid rgba(0,108,53,.25)", borderRadius: 12, padding: "8px 18px", marginTop: 20 }}>
                   <span style={{ position: "relative", display: "flex", width: 10, height: 10 }}>
@@ -189,7 +206,7 @@ export default function QuizPage() {
             </div>
 
             <div style={{ marginBottom: 32 }}>
-              <span style={{ display: "inline-block", fontSize: ".72rem", letterSpacing: ".35em", color: "#c9a84c", textTransform: "uppercase", borderRight: "2px solid #c9a84c", paddingRight: 12, marginBottom: 20 }}>مراجعة الإجابات</span>
+              <span style={{ display: "inline-block", fontSize: ".72rem", color: "#c9a84c", borderRight: "2px solid #c9a84c", paddingRight: 12, marginBottom: 20 }}>مراجعة الإجابات</span>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {questions.map((qs, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 14, background: answers[i]?.correct ? "rgba(34,197,94,.06)" : "rgba(239,68,68,.06)", border: `1px solid ${answers[i]?.correct ? "rgba(34,197,94,.2)" : "rgba(239,68,68,.2)"}`, borderRadius: 12, padding: "14px 18px" }}>
@@ -218,15 +235,50 @@ export default function QuizPage() {
       </div>
 
       {/* الفوتر */}
-      <footer style={{ position: "relative", zIndex: 2, borderTop: "1px solid rgba(0,108,53,.18)", background: "rgba(0,0,0,.35)", backdropFilter: "blur(8px)", padding: "24px 32px" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <LogoIcon />
-            <span style={{ fontSize: ".95rem", fontWeight: "bold", color: "#c9a84c", fontFamily: "'Amiri', serif", letterSpacing: ".05em" }}>هاف كود</span>
-          </div>
-          <p style={{ margin: 0, fontSize: ".78rem", color: "rgba(245,240,232,.35)", letterSpacing: ".05em", textAlign: "center" }}>© 2025 هاف كود — جميع الحقوق محفوظة</p>
-        </div>
-      </footer>
+            <footer
+              style={{
+                position: "relative",
+                zIndex: 2,
+                borderTop: "1px solid rgba(0,108,53,.2)",
+                // background: "#d6d6d6",
+                backdropFilter: "blur(8px)",
+                padding: "24px 32px",
+                background: `
+                      radial-gradient(circle at 20% 50%, rgba(201,168,76,.08), transparent 60%),
+                      radial-gradient(circle at 80% 50%, rgba(0,138,67,.15), transparent 60%)`,
+              }}
+            >
+              <div
+                style={{
+                  maxWidth: 720,
+                  margin: "0 auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 12,
+                }}
+              >
+                <div>
+                  <a href="https://hafcode.com" target="_blank" rel="noopener noreferrer">
+                              <Image src="/hafcod.png" alt="هاف كود" width={60} height={60} />
+                            </a>
+      
+                </div>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: ".78rem",
+                    color: "#1d8544",
+                    letterSpacing: ".05em",
+                    textAlign: "center",
+                    direction: "rtl",
+                  }}
+                >
+                  © جميع الحقوق محفوظة - هاف كود 2026
+                </p>
+              </div>
+            </footer>
 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
