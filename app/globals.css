@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d0d0d;
+  --foreground: #f0f0f0;
   --font-amiri: 'Amiri', serif;
 }
 
@@ -13,149 +13,71 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ededed;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ===== THEME VARIABLES ===== */
-/* Add these to your globals.css */
-
+/* ===== الافتراضي = dark ===== */
 :root,
-[data-theme="light"] {
-  /* Backgrounds */
-  --bg-hero: radial-gradient(ellipse at 50% 60%, #003d1f 0%, #001a0d 60%, #000 100%);
-  --bg-sections: #ededed;
-  --bg-card: rgba(0, 108, 53, 0.08);
-  --bg-card-hover: rgba(0, 108, 53, 0.13);
-  --bg-celebration: linear-gradient(135deg, #f0faf4 0%, #e8f5ee 50%, #f5fff8 100%);
-  --bg-footer: transparent;
-
-  /* Text */
-  --text-primary: #0a0a0a;
-  --text-body: #444444;
-  --text-green: #005c2e;
-  --text-footer: #1d8544;
-
-  /* Borders & accents */
-  --border-green: rgba(0, 108, 53, 0.2);
-  --border-card: rgba(0, 108, 53, 0.25);
-  --border-card-hover: rgba(0, 108, 53, 0.55);
-  --divider: rgba(0, 108, 53, 0.5);
-
-  /* Toggle button */
-  --toggle-bg: rgba(255, 255, 255, 0.85);
-  --toggle-border: rgba(0, 108, 53, 0.35);
-  --toggle-icon: #1d8544;
-  --toggle-shadow: rgba(0, 108, 53, 0.15);
-}
-
 [data-theme="dark"] {
-  /* Backgrounds */
-  --bg-hero: radial-gradient(ellipse at 50% 60%, #003d1f 0%, #001a0d 60%, #000 100%);
   --bg-sections: #0d0d0d;
-  --bg-card: rgba(0, 108, 53, 0.1);
-  --bg-card-hover: rgba(0, 108, 53, 0.18);
+  --bg-card: rgba(0, 108, 53, 0.12);
+  --bg-card-hover: rgba(0, 108, 53, 0.20);
   --bg-celebration: linear-gradient(135deg, #0a1f12 0%, #0d2016 50%, #0b1a10 100%);
-  --bg-footer: transparent;
 
-  /* Text */
   --text-primary: #f0f0f0;
   --text-body: #aaaaaa;
   --text-green: #4ade80;
   --text-footer: #4ade80;
 
-  /* Borders & accents */
   --border-green: rgba(0, 108, 53, 0.3);
   --border-card: rgba(0, 180, 90, 0.2);
   --border-card-hover: rgba(74, 222, 128, 0.5);
   --divider: rgba(0, 180, 90, 0.4);
 
-  /* Toggle button */
   --toggle-bg: rgba(0, 20, 10, 0.85);
   --toggle-border: rgba(74, 222, 128, 0.35);
   --toggle-icon: #c9a84c;
   --toggle-shadow: rgba(201, 168, 76, 0.15);
 }
 
-/* ===== APPLY THEME TO SECTIONS ===== */
-/* Sections wrapper */
-[data-theme="dark"] .sections-wrapper {
-  background: var(--bg-sections) !important;
-}
-[data-theme="light"] .sections-wrapper {
-  background: var(--bg-sections) !important;
+[data-theme="light"] {
+  --bg-sections: #ededed;
+  --bg-card: rgba(0, 108, 53, 0.08);
+  --bg-card-hover: rgba(0, 108, 53, 0.13);
+  --bg-celebration: linear-gradient(135deg, #f0faf4 0%, #e8f5ee 50%, #f5fff8 100%);
+
+  --text-primary: #0a0a0a;
+  --text-body: #444444;
+  --text-green: #005c2e;
+  --text-footer: #1d8544;
+
+  --border-green: rgba(0, 108, 53, 0.2);
+  --border-card: rgba(0, 108, 53, 0.25);
+  --border-card-hover: rgba(0, 108, 53, 0.55);
+  --divider: rgba(0, 108, 53, 0.5);
+
+  --toggle-bg: rgba(255, 255, 255, 0.85);
+  --toggle-border: rgba(0, 108, 53, 0.35);
+  --toggle-icon: #1d8544;
+  --toggle-shadow: rgba(0, 108, 53, 0.15);
 }
 
-[data-theme="dark"] h2 {
-  color: var(--text-primary) !important;
+/* ===== SECTIONS ===== */
+[data-theme="dark"] h2 { color: var(--text-primary) !important; }
+[data-theme="dark"] p  { color: var(--text-body) !important; }
+[data-theme="dark"] h3 { color: var(--text-green) !important; }
+
+[data-theme="dark"] footer { border-color: var(--border-green) !important; }
+[data-theme="dark"] footer p { color: var(--text-footer) !important; }
+
+/* Smooth transitions */
+body, body * {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
 }
 
-[data-theme="dark"] p {
-  color: var(--text-body) !important;
-}
-
-[data-theme="dark"] h3 {
-  color: var(--text-green) !important;
-}
-
-/* Spec & timeline cards */
-[data-theme="dark"] .spec-card,
-[data-theme="dark"] .timeline-card {
-  background: var(--bg-card) !important;
-  border-color: var(--border-card) !important;
-}
-
-[data-theme="dark"] .spec-card:hover,
-[data-theme="dark"] .timeline-card:hover {
-  background: var(--bg-card-hover) !important;
-  border-color: var(--border-card-hover) !important;
-}
-
-/* Celebration section */
-[data-theme="dark"] .celebration-card {
-  background: var(--bg-celebration) !important;
-  border-color: var(--border-green) !important;
-}
-
-/* Footer */
-[data-theme="dark"] footer {
-  border-color: var(--border-green) !important;
-}
-
-[data-theme="dark"] footer p {
-  color: var(--text-footer) !important;
-}
-
-/* Dividers */
-[data-theme="dark"] .divider {
-  background: linear-gradient(to left, transparent, var(--divider), transparent) !important;
-}
-
-/* Timeline dot active */
-[data-theme="dark"] .visible .timeline-dot {
-  background: #c9a84c !important;
-  border-color: #c9a84c !important;
-}
-
-/* Smooth transition for theme switch */
-body,
-body * {
-  transition:
-    background-color 0.35s ease,
-    border-color 0.35s ease,
-    color 0.35s ease;
-}
-
-/* Don't transition animations/transforms */
 [class*="animate-"],
 [class*="scroll-reveal"] {
   transition:

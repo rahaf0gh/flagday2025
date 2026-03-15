@@ -41,13 +41,12 @@ export default function QuizPage() {
 
   const q = questions[current];
 
-  function handleSelect(idx: number) { if (confirmed) return; setSelected(idx); }
-
-  function handleConfirm() {
-    if (selected === null) return;
-    const correct = selected === q.answer;
+  function handleSelect(idx: number) {
+    if (confirmed) return;
+    setSelected(idx);
+    const correct = idx === q.answer;
     if (correct) setScore((s) => s + 1);
-    setAnswers((a) => [...a, { correct, selected }]);
+    setAnswers((a) => [...a, { correct, selected: idx }]);
     setConfirmed(true);
   }
 
@@ -70,6 +69,13 @@ export default function QuizPage() {
       setConfirmed(false);
     }
   }
+
+  // الانتقال التلقائي بعد 1.5 ثانية من اختيار الإجابة
+  useEffect(() => {
+    if (!confirmed) return;
+    const timer = setTimeout(() => { handleNext(); }, 1500);
+    return () => clearTimeout(timer);
+  }, [confirmed]);
 
   function handleRestart() {
     setCurrent(0); setSelected(null); setConfirmed(false);
@@ -99,7 +105,7 @@ export default function QuizPage() {
       <div style={{ flex: 1, maxWidth: 720, width: "100%", margin: "0 auto", padding: "0 24px 60px", position: "relative", zIndex: 1 }}>
         <div style={{ textAlign: "center", paddingTop: 40, paddingBottom: 32 }}>
 
-          {/* عداد المكتملين — يظهر قبل الاختبار */}
+          {/* عداد المكتملين */}
           {completions !== null && (
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(0,108,53,.08)", border: "1px solid rgba(0,108,53,.25)", borderRadius: 12, padding: "8px 18px", marginBottom: 24 }}>
               <span style={{ position: "relative", display: "flex", width: 10, height: 10 }}>
@@ -133,8 +139,11 @@ export default function QuizPage() {
 
             <div style={{ background: "rgba(0,108,53,.07)", border: "1px solid rgba(0,108,53,.25)", borderRadius: 20, padding: "36px 32px", marginBottom: 20, position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, right: 0, width: 80, height: 80, background: "radial-gradient(circle, rgba(201,168,76,.15), transparent 70%)" }} />
-              <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", background: "rgba(201,168,76,.12)", border: "1px solid rgba(201,168,76,.3)", color: "#c9a84c", fontSize: ".85rem", fontFamily: "monospace", marginBottom: 20, fontWeight: "bold" }}>{current + 1}</div>
-              <h2 style={{ fontSize: "clamp(1.1rem,3vw,1.45rem)", color: "#fff", lineHeight: 1.6, margin: 0 }}>{q.question}</h2>
+              {/* رقم السؤال جنب نص السؤال في نفس السطر */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: "rgba(201,168,76,.12)", border: "1px solid rgba(201,168,76,.3)", color: "#c9a84c", fontSize: ".85rem", fontFamily: "monospace", fontWeight: "bold" }}>{current + 1}</div>
+                <h2 style={{ fontSize: "clamp(1.1rem,3vw,1.45rem)", color: "#fff", lineHeight: 1.6, margin: 0 }}>{q.question}</h2>
+              </div>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
@@ -158,18 +167,17 @@ export default function QuizPage() {
 
             {confirmed && (
               <div style={{ background: "rgba(201,168,76,.07)", border: "1px solid rgba(201,168,76,.25)", borderRadius: 14, padding: "16px 20px", marginBottom: 24, animation: "fadeIn .4s ease" }}>
-                <span style={{ fontSize: ".72rem", letterSpacing: ".2em", color: "#c9a84c", textTransform: "uppercase", fontFamily: "'Amiri', serif"  }}>💡 معلومة</span>
+                <span style={{ fontSize: ".72rem", color: "#c9a84c",fontFamily: "'Amiri', serif"  }}> معلومة</span>
                 <p style={{ margin: "8px 0 0", fontSize: ".95rem", color: "rgba(245,240,232,.75)", lineHeight: 1.9 }}>{q.explanation}</p>
               </div>
             )}
 
-            <div style={{ display: "flex", gap: 12, justifyContent: "flex-start" }}>
-              {!confirmed ? (
-                <button onClick={handleConfirm} disabled={selected === null} style={{ background: selected !== null ? "#c9a84c" : "rgba(201,168,76,.2)", color: selected !== null ? "#0a0a0a" : "rgba(201,168,76,.4)", border: "none", borderRadius: 12, padding: "14px 32px", fontSize: "1rem", fontFamily: "'Amiri', serif", fontWeight: "bold", cursor: selected !== null ? "pointer" : "default", transition: "all .2s" }}>تأكيد الإجابة</button>
-              ) : (
-                <button onClick={handleNext} style={{ background: "linear-gradient(135deg, #006c35, #00a050)", color: "#fff", border: "none", borderRadius: 12, padding: "14px 32px", fontSize: "1rem", fontFamily: "'Amiri', serif", fontWeight: "bold", cursor: "pointer", transition: "all .2s", boxShadow: "0 4px 20px rgba(0,108,53,.3)" }}>{current + 1 >= questions.length ? "عرض النتيجة ←" : "السؤال التالي ←"}</button>
-              )}
-            </div>
+            {/* شريط التقدم الزمني للانتقال التلقائي */}
+            {confirmed && (
+              <div style={{ height: 3, background: "rgba(255,255,255,.08)", borderRadius: 999, overflow: "hidden", marginTop: 4 }}>
+                <div style={{ height: "100%", background: "linear-gradient(to left, #c9a84c, #006c35)", borderRadius: 999, animation: "countdown 1.5s linear forwards" }} />
+              </div>
+            )}
           </>
         ) : (
           <div style={{ animation: "fadeIn .5s ease" }}>
@@ -181,21 +189,6 @@ export default function QuizPage() {
               </div>
               <p style={{ color: "#c9a84c", fontSize: "1.1rem", margin: "12px 0 4px" }}>{scoreMsg}</p>
               <p style={{ color: "rgba(245,240,232,.45)", fontSize: ".9rem", margin: 0 }}>أجبت بشكل صحيح على {score} من أصل {questions.length} أسئلة</p>
-
-              {/* عداد المكتملين في صفحة النتيجة */}
-              {completions !== null && (
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(0,108,53,.08)", border: "1px solid rgba(0,108,53,.25)", borderRadius: 12, padding: "8px 18px", marginTop: 20 }}>
-                  <span style={{ position: "relative", display: "flex", width: 10, height: 10 }}>
-                    <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#4ade80", opacity: 0.6, animation: "ping 1s infinite" }} />
-                    <span style={{ position: "relative", borderRadius: "50%", width: 10, height: 10, background: "#4ade80", display: "block" }} />
-                  </span>
-                  <span style={{ fontSize: ".78rem", color: "rgba(245,240,232,.55)" }}>أتم الاختبار</span>
-                  <span style={{ fontSize: "1.1rem", fontWeight: "bold", color: "#c9a84c", fontFamily: "'Amiri', serif" }}>
-                    {completions.toLocaleString("ar-SA")}
-                  </span>
-                  <span style={{ fontSize: ".72rem", color: "rgba(245,240,232,.35)" }}>شخص</span>
-                </div>
-              )}
 
               <div style={{ margin: "28px auto 0", maxWidth: 300 }}>
                 <div style={{ height: 8, background: "rgba(255,255,255,.07)", borderRadius: 999, overflow: "hidden" }}>
@@ -224,7 +217,7 @@ export default function QuizPage() {
 
             <div style={{ display: "flex", gap: 12, flexDirection: "column" }}>
               <button onClick={handleRestart} style={{ display: "block", width: "100%", background: "#c9a84c", color: "#0a0a0a", border: "none", borderRadius: 14, padding: "16px", fontSize: "1.1rem", fontFamily: "'Amiri', serif", fontWeight: "bold", cursor: "pointer" }}>
-                إعادة الاختبار 🔄
+                إعادة الاختبار
               </button>
               <Link href="/" style={{ display: "block", width: "100%", textAlign: "center", background: "rgba(0,108,53,.12)", color: "rgba(245,240,232,.7)", border: "1px solid rgba(0,108,53,.3)", borderRadius: 14, padding: "14px", fontSize: "1rem", fontFamily: "'Amiri', serif", textDecoration: "none", transition: "all .2s" }}>
                 ← العودة للصفحة الرئيسية
@@ -240,7 +233,6 @@ export default function QuizPage() {
                 position: "relative",
                 zIndex: 2,
                 borderTop: "1px solid rgba(0,108,53,.2)",
-                // background: "#d6d6d6",
                 backdropFilter: "blur(8px)",
                 padding: "24px 32px",
                 background: `
@@ -282,6 +274,7 @@ export default function QuizPage() {
 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes countdown { from { width: 100%; } to { width: 0%; } }
         @keyframes ping { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2); opacity: 0; } }
         button:hover { filter: brightness(1.08); }
       `}</style>

@@ -9,8 +9,6 @@ export default function Home() {
     <>
       <ScrollAnimations />
       <ThemeToggle />
-
-      {/* HERO — الخلفية الداكنة ثابتة دايمًا */}
       <div
         className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden"
         style={{
@@ -42,7 +40,7 @@ export default function Home() {
         </p>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 animate-[fadeIn_1s_1.4s_forwards]">
-          <span className="text-[.7rem] tracking-[.2em] text-[#c9a84c] opacity-60">تمرير</span>
+          <span className="text-[.7rem] text-[#c9a84c] opacity-60">تمرير</span>
           <div className="w-px h-[50px] bg-gradient-to-b from-[#c9a84c] to-transparent animate-[lineGrow_1.4s_ease-in-out_infinite]" />
         </div>
 
@@ -53,22 +51,21 @@ export default function Home() {
         </video>
       </div>
 
-      {/* Sections wrapper — يستخدم CSS variable للخلفية */}
-      <div style={{ background: "var(--bg-sections, #ededed)", transition: "background .35s ease" }}>
+      <div style={{ background: "var(--bg-sections)", transition: "background .35s ease" }}>
 
         {/* MEANING */}
         <section className="max-w-[900px] mx-auto px-8 py-24">
           <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">الرمزية</span>
           <h2 className="font-['Amiri',serif] text-[clamp(1.8rem,4vw,3rem)] font-bold leading-[1.3] mb-6"
-            style={{ color: "var(--text-primary, #0a0a0a)", transition: "color .35s ease" }}>
+            style={{ color: "var(--text-primary)", transition: "color .35s ease" }}>
             ما الذي يمثله العلم؟
           </h2>
           <p className="text-[1.05rem] font-light leading-[2] mb-4"
-            style={{ color: "var(--text-body, #444444)", transition: "color .35s ease" }}>
+            style={{ color: "var(--text-body)", transition: "color .35s ease" }}>
             يجسّد العلم مفهوم المملكة العربية السعودية في أبهى صوره، ويعبّر عن الوحدة الوطنية والعمق التاريخي الضارب بجذوره عبر الأجيال. فهو ليس مجرد قطعة قماش ترفرف في الهواء، بل هو هوية أمة وروح وطن.
           </p>
           <p className="text-[1.05rem] font-light leading-[2] mb-4"
-            style={{ color: "var(--text-body, #444444)", transition: "color .35s ease" }}>
+            style={{ color: "var(--text-body)", transition: "color .35s ease" }}>
             يجسد العلم مفهوم الدولة، ويعبر عن الوحدة الوطنية والعمق التاريخي للمملكة العربية السعودية. ويعد العلم في المملكة العربية السعودية رمزاً للدولة والوطن; حيث يعبر عن الشموخ، والعزة، والمكانة، والكرامة، والمبادئ التي تقوم عليها البلاد.
           </p>
         </section>
@@ -79,11 +76,11 @@ export default function Home() {
         <section className="max-w-[900px] mx-auto px-8 py-24">
           <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">التاريخ</span>
           <h2 className="font-['Amiri',serif] text-[clamp(1.8rem,4vw,3rem)] font-bold leading-[1.3] mb-6"
-            style={{ color: "var(--text-primary, #0a0a0a)", transition: "color .35s ease" }}>
+            style={{ color: "var(--text-primary)", transition: "color .35s ease" }}>
             علمٌ متوارث عبر الأجيال!
           </h2>
           <p className="text-[1.05rem] font-light leading-[2] mb-8"
-            style={{ color: "var(--text-body, #444444)", transition: "color .35s ease" }}>
+            style={{ color: "var(--text-body)", transition: "color .35s ease" }}>
             ترجع جذور راية المملكة العربية السعودية إلى فجر الدولة السعودية الأولى، مروراً بعهود متعاقبة حملت كل واحدة منها قيم الإسلام والوحدة.
           </p>
 
@@ -104,18 +101,18 @@ export default function Home() {
                   <div className="w-4 h-4 rounded-full bg-[#0a0a0a] border-[3px] border-[rgba(201,168,76,.4)] flex-shrink-0 transition-all duration-400 [.visible_&]:bg-[#c9a84c] [.visible_&]:border-[#c9a84c] [.visible_&]:shadow-[0_0_0_5px_rgba(201,168,76,.15),0_0_18px_rgba(201,168,76,.35)]" />
                 </div>
                 <div style={{
-                  background: "var(--bg-card, rgba(0,108,53,.05))",
-                  border: "1px solid var(--border-card, rgba(0,108,53,.2))",
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border-card)",
                   transition: "background .35s ease, border-color .35s ease",
                   borderRadius: "0.75rem",
                   padding: "1.25rem 1.5rem",
                 }}>
                   <h3 className="font-['Amiri',serif] text-[1.3rem] mb-2"
-                    style={{ color: "var(--text-green, #005c2e)", transition: "color .35s ease" }}>
+                    style={{ color: "var(--text-green)", transition: "color .35s ease" }}>
                     {item.title}
                   </h3>
                   <p className="m-0 text-[.95rem] font-light leading-[2]"
-                    style={{ color: "var(--text-body, #444444)", transition: "color .35s ease" }}>
+                    style={{ color: "var(--text-body)", transition: "color .35s ease" }}>
                     {item.body}
                   </p>
                 </div>
@@ -130,11 +127,11 @@ export default function Home() {
         <section className="max-w-[900px] mx-auto px-8 py-24">
           <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">المواصفات</span>
           <h2 className="font-['Amiri',serif] text-[clamp(1.8rem,4vw,3rem)] font-bold leading-[1.3] mb-6"
-            style={{ color: "var(--text-primary, #0a0a0a)", transition: "color .35s ease" }}>
+            style={{ color: "var(--text-primary)", transition: "color .35s ease" }}>
             تصميم العلم الوطني
           </h2>
           <p className="text-[1.05rem] font-light leading-[2] mb-4"
-            style={{ color: "var(--text-body, #444444)", transition: "color .35s ease" }}>
+            style={{ color: "var(--text-body)", transition: "color .35s ease" }}>
             لكل تفصيلة في العلم السعودي دلالة ومعنى، من لونه إلى شكله وما يحمله من عبارات وشعارات.
           </p>
 
@@ -148,15 +145,15 @@ export default function Home() {
               <div key={spec.label}
                 className="relative overflow-hidden rounded-xl p-6 opacity-0 translate-y-5 transition-all duration-500 scroll-reveal [&.visible]:opacity-100 [&.visible]:translate-y-0"
                 style={{
-                  background: "var(--bg-card, rgba(0,108,53,.08))",
-                  border: "1px solid var(--border-card, rgba(0,108,53,.25))",
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border-card)",
                   transition: "background .35s ease, border-color .35s ease, opacity .5s, transform .5s",
                 }}>
                 <div className="absolute top-0 right-0 w-[60px] h-[60px]"
                   style={{ background: "radial-gradient(circle, rgba(0,108,53,.3), transparent 70%)" }} />
                 <div className="text-[1.25rem] font-bold text-[#c9a84c] mb-1">{spec.label}</div>
                 <div className="text-[1rem] leading-[1.6]"
-                  style={{ color: "var(--text-primary, #1a1a1a)", transition: "color .35s ease" }}>
+                  style={{ color: "var(--text-primary)", transition: "color .35s ease" }}>
                   {spec.value}
                 </div>
               </div>
@@ -170,8 +167,8 @@ export default function Home() {
         <section className="max-w-[900px] mx-auto px-8 py-24">
           <div className="relative overflow-hidden rounded-[20px] px-12 py-16 text-center opacity-0 translate-y-8 transition-all duration-700 scroll-reveal [&.visible]:opacity-100 [&.visible]:translate-y-0"
             style={{
-              background: "var(--bg-celebration, linear-gradient(135deg,#f0faf4 0%,#e8f5ee 50%,#f5fff8 100%))",
-              border: "1px solid var(--border-green, rgba(0,108,53,.3))",
+              background: "var(--bg-celebration)",
+              border: "1px solid var(--border-green)",
               transition: "background .35s ease, border-color .35s ease, opacity .7s, transform .7s",
             }}>
             <div className="absolute inset-0 pointer-events-none"
@@ -179,21 +176,21 @@ export default function Home() {
 
             <span className="inline-block font-bold text-[.76rem] text-[#c9a84c] border-r-2 border-[#c9a84c] pr-3 mb-5">الاحتفال</span>
             <h2 className="font-['Amiri',serif] text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.3] mb-4 relative z-10"
-              style={{ color: "var(--text-primary, #0a0a0a)", transition: "color .35s ease" }}>
+              style={{ color: "var(--text-primary)", transition: "color .35s ease" }}>
               يوم العلم السعودي
             </h2>
             <p className="text-[1.05rem] font-light leading-[2] max-w-[500px] mx-auto mb-6 relative z-10"
-              style={{ color: "var(--text-body, #444444)", transition: "color .35s ease" }}>
+              style={{ color: "var(--text-body)", transition: "color .35s ease" }}>
               مناسبة وطنية تُحيي ذكرى اعتماد العلم بشكله الحالي، وتجدّد الفخر والانتماء في قلوب كل سعودي وسعودية.
             </p>
             <div className="inline-flex flex-col items-center bg-[#c9a84c] text-[#0a0a0a] rounded-xl px-8 py-2.5 font-extrabold text-[1.4rem] leading-[1.3] relative z-10">
-              <small className="text-[.7rem] font-semibold tracking-[.15em] uppercase opacity-70">يوافق كل عام</small>
+              <small className="text-[.7rem] font-semibold uppercase opacity-70">يوافق كل عام</small>
               ١١ مارس
             </div>
 
             <div className="mt-8 relative z-10">
               <Link href="/quiz"
-                className="inline-flex items-center gap-3 bg-transparent border-2 border-[#1d8544] text-[#4ade80] rounded-xl px-10 py-4 font-['Amiri',serif] text-[1.2rem] font-bold transition-all duration-300 hover:bg-[#1d8544] hover:text-white hover:shadow-[0_0_30px_rgba(29,133,68,.4)] hover:scale-105 active:scale-95">
+                className="inline-flex items-center gap-3 bg-transparent border-2 border-[#1d8544] text-[#1d8544] rounded-xl px-10 py-4 font-['Amiri',serif] text-[1.2rem] font-bold transition-all duration-300 hover:bg-[#1d8544] hover:text-white hover:shadow-[0_0_30px_rgba(29,133,68,.4)] hover:scale-105 active:scale-95">
                 <span>اختبر معلوماتك عن العلم</span>
                 <span className="text-[1.4rem]">←</span>
               </Link>
@@ -206,10 +203,10 @@ export default function Home() {
       <footer style={{
         position: "relative",
         zIndex: 2,
-        borderTop: "1px solid var(--border-green, rgba(0,108,53,.2))",
+        borderTop: "1px solid var(--border-green)",
         backdropFilter: "blur(8px)",
         padding: "24px 32px",
-        background: "var(--bg-sections, #ededed)",
+        background: "var(--bg-sections)",
         transition: "background .35s ease, border-color .35s ease",
       }}>
         <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
@@ -219,7 +216,7 @@ export default function Home() {
           <p style={{
             margin: 0,
             fontSize: ".78rem",
-            color: "var(--text-footer, #1d8544)",
+            color: "var(--text-footer)",
             letterSpacing: ".05em",
             textAlign: "center",
             direction: "rtl",
